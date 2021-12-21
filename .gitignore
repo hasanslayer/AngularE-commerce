@@ -1,0 +1,4 @@
+obj
+bin
+appsetting.json
+*.db
