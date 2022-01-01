@@ -1,0 +1,164 @@
+[
+  {
+    "NameAr": "Angular Speedster Board 2000",
+    "NameEn": "تست",
+    "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+    "Price": 200,
+    "ImgUrl": "images/products/sb-ang1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 1
+  },
+  {
+    "NameAr": "Green Angular Board 3000",
+    "NameEn": "تست 2",
+    "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+    "Price": 150,
+    "ImgUrl": "images/products/sb-ang2.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 1
+  },
+  {
+    "NameAr": "Core Board Speed Rush 3",
+    "NameEn": "تست 3",
+    "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+    "Price": 180,
+    "ImgUrl": "images/products/sb-core1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 2
+  },
+  {
+    "NameAr": "Net Core Super Board",
+    "NameEn": "تست 3",
+    "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+    "Price": 300,
+    "ImgUrl": "images/products/sb-core2.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 2
+  },
+  {
+    "NameAr": "React Board Super Whizzy Fast",
+    "NameEn": "تست 3",
+    "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+    "Price": 250,
+    "ImgUrl": "images/products/sb-react1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 4
+  },
+  {
+    "NameAr": "Typescript Entry Board",
+    "NameEn": "تست 3",
+    "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+    "Price": 120,
+    "ImgUrl": "images/products/sb-ts1.png",
+    "ProductTypeId": 1,
+    "ProductBrandId": 5
+  },
+  {
+    "NameAr": "Core Blue Hat",
+    "NameEn": "تست 3",
+    "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+    "Price": 10,
+    "ImgUrl": "images/products/hat-core1.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 2
+  },
+  {
+    "NameAr": "Green React Woolen Hat",
+    "NameEn": "تست 3",
+    "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+    "Price": 8,
+    "ImgUrl": "images/products/hat-react1.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 4
+  },
+  {
+    "NameAr": "Purple React Woolen Hat",
+    "NameEn": "تست 3",
+    "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+    "Price": 15,
+    "ImgUrl": "images/products/hat-react2.png",
+    "ProductTypeId": 2,
+    "ProductBrandId": 4
+  },
+  {
+    "NameAr": "Blue Code Gloves",
+    "NameEn": "تست 3",
+    "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+    "Price": 18,
+    "ImgUrl": "images/products/glove-code1.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 3
+  },
+  {
+    "NameAr": "Green Code Gloves",
+    "NameEn": "تست 3",
+    "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+    "Price": 15,
+    "ImgUrl": "images/products/glove-code2.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 3
+  },
+  {
+    "NameAr": "Purple React Gloves",
+    "NameEn": "تست 3",
+    "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.",
+    "Price": 16,
+    "ImgUrl": "images/products/glove-react1.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 4
+  },
+  {
+    "NameAr": "Green React Gloves",
+    "NameEn": "تست 3",
+    "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+    "Price": 14,
+    "ImgUrl": "images/products/glove-react2.png",
+    "ProductTypeId": 4,
+    "ProductBrandId": 4
+  },
+  {
+    "NameAr": "Redis Red Boots",
+    "NameEn": "تست 3",
+    "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+    "Price": 250,
+    "ImgUrl": "images/products/boot-redis1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 6
+  },
+  {
+    "NameAr": "Core Red Boots",
+    "NameEn": "تست 3",
+    "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+    "Price": 189.99,
+    "ImgUrl": "images/products/boot-core2.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 2
+  },
+  {
+    "NameAr": "Core Purple Boots",
+    "NameEn": "تست 3",
+    "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+    "Price": 199.99,
+    "ImgUrl": "images/products/boot-core1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 2
+  },
+  {
+    "NameAr": "Angular Purple Boots",
+    "NameEn": "تست 3",
+    "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+    "Price": 150,
+    "ImgUrl": "images/products/boot-ang2.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 1
+  },
+  {
+    "NameAr": "Angular Blue Boots",
+    "NameEn": "تست 3",
+    "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+    "Price": 180,
+    "ImgUrl": "images/products/boot-ang1.png",
+    "ProductTypeId": 3,
+    "ProductBrandId": 1
+  }
+]
