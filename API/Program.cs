@@ -1,3 +1,4 @@
+using API.Helpers;
 using API.Infrastructure.Data;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -14,7 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
