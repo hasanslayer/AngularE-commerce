@@ -44,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpGet("badreqeust/{id}")]
-        public IActionResult GetNotFoundReqeust(string id)
+        public IActionResult GetNotFoundReqeust(int id)
         {
             return Ok();
         }
