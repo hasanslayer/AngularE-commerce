@@ -27,13 +27,12 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("products")]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(
-            string sort, int? brandId, int? typeId, string lang = "en")
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification(sort, brandId, typeId, lang);
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
 
             var productList = await _productRepo.ListAsync(spec);
-            MappingProfiles.Lang = lang;
+            MappingProfiles.Lang = productParams.Lang;
             var products = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(productList);
 
             return Ok(products);
