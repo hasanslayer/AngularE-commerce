@@ -27,15 +27,18 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("products")]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts([FromQuery] ProductSpecParams productParams)
+        public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFilterForCountSpecification(productParams);
+
+            var totalItems = await _productRepo.CountAsync(countSpec);
 
             var productList = await _productRepo.ListAsync(spec);
             MappingProfiles.Lang = productParams.Lang;
             var products = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(productList);
 
-            return Ok(products);
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,productParams.PageSize,totalItems,products));
         }
         [HttpGet]
         [Route("brands")]
