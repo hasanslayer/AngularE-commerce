@@ -20,6 +20,13 @@ namespace Core.Specifications
         public int? TypeId { get; set; }
         public string Sort { get; set; }
         public string Lang { get; set; } = "en";
+        private string _search;
+        public string Search
+        {
+            get { return _search; }
+            set { _search = value.ToLower(); }
+        }
+
 
 
     }
