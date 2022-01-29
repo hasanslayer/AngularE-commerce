@@ -24,9 +24,7 @@ namespace API.Controllers
             _productBrandRepo = brandRepo;
             _mapper = mapper;
         }
-
         [HttpGet]
-        [Route("products")]
         public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
