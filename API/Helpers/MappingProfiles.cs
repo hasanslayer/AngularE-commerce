@@ -14,6 +14,13 @@ namespace API.Helpers
                             .ForMember(dst => dst.ProductBrand, opt => opt.MapFrom(src => Lang == "ar" ? src.ProductBrand.NameAr : src.ProductBrand.NameEn))
                             .ForMember(dst => dst.ProductType, opt => opt.MapFrom(src => Lang == "ar" ? src.ProductType.NameAr : src.ProductType.NameEn))
                             .ForMember(dst => dst.ImgUrl, opt => opt.MapFrom<ProductUrlResolver>());
+
+            CreateMap<ProductBrand, ProductBrandToReturnDto>()
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => Lang == "ar" ? src.NameAr : src.NameEn));
+
+            CreateMap<ProductType, ProductTypeToReturnDto>()
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => Lang == "ar" ? src.NameAr : src.NameEn));
+
         }
     }
 }

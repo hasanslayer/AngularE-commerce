@@ -36,21 +36,26 @@ namespace API.Controllers
             MappingProfiles.Lang = productParams.Lang;
             var products = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(productList);
 
-            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,productParams.PageSize,totalItems,products));
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, products));
         }
         [HttpGet]
         [Route("brands")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+        public async Task<ActionResult<IReadOnlyList<ProductBrandToReturnDto>>> GetProductBrands(string lang = "en")
         {
-            var productBrands = await _productBrandRepo.ListAllAsync();
+            var productBrandsList = await _productBrandRepo.ListAllAsync();
+            MappingProfiles.Lang = lang;
+            var productBrands = _mapper.Map<IReadOnlyList<ProductBrand>, IReadOnlyList<ProductBrandToReturnDto>>(productBrandsList);
+
             return Ok(productBrands);
         }
         [HttpGet]
         [Route("types")]
-        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+        public async Task<ActionResult<IReadOnlyList<ProductTypeToReturnDto>>> GetProductTypes(string lang = "en")
         {
-            var productTypes = await _productTypeRepo.ListAllAsync();
-            return Ok(productTypes);
+            var productTypesList = await _productTypeRepo.ListAllAsync();
+            MappingProfiles.Lang = lang;
+            var productBrands = _mapper.Map<IReadOnlyList<ProductType>, IReadOnlyList<ProductTypeToReturnDto>>(productTypesList);
+            return Ok(productBrands);
         }
 
         [HttpGet("{id}")]
