@@ -14,8 +14,8 @@ export class ShopComponent implements OnInit {
   products?: IProduct[] = [];
   brands: IBrand[] = [];
   types: IType[] = [];
-  brandIdSelected?: number;
-  typeIdSelected?: number;
+  brandIdSelected: number = 0;
+  typeIdSelected: number = 0;
 
   constructor(private shopService: ShopService) {}
 
@@ -59,10 +59,10 @@ export class ShopComponent implements OnInit {
 
   onBrandSelected(brandId: number) {
     this.brandIdSelected = brandId;
-    this.getBrands();
+    this.getProducts();
   }
   onTypeSelected(typeId: number) {
     this.typeIdSelected = typeId;
-    this.getTypes();
+    this.getProducts();
   }
 }
