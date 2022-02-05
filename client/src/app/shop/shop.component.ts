@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IBrand } from '../shared/models/brand';
 import { IPagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
@@ -12,6 +12,7 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
+  @ViewChild('search', { static: true }) searchTerm!: ElementRef;
   products: IProduct[] = [];
   brands: IBrand[] = [];
   types: IType[] = [];
@@ -38,7 +39,6 @@ export class ShopComponent implements OnInit {
         this.shopParams.pageNumber = res.pageIndex;
         this.shopParams.pageSize = res.pageSize;
         this.totalCount = res.count;
-
       },
       error: (err) => console.log(err),
     });
@@ -48,7 +48,6 @@ export class ShopComponent implements OnInit {
     this.shopService.getBrands().subscribe({
       next: (res) => {
         this.brands = [{ id: 0, name: 'All' }, ...res];
-
       },
       error: (err) => console.log(err),
     });
@@ -58,7 +57,6 @@ export class ShopComponent implements OnInit {
     this.shopService.getTypes().subscribe({
       next: (res) => {
         this.types = [{ id: 0, name: 'All' }, ...res];
-
       },
       error: (err) => console.log(err),
     });
@@ -78,8 +76,19 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onPageChanged(event:any){
+  onPageChanged(event: any) {
     this.shopParams.pageNumber = event;
+    this.getProducts();
+  }
+
+  onSearch() {
+    this.shopParams.search = this.searchTerm?.nativeElement.value;
+    this.getProducts();
+  }
+
+  onReset() {
+    this.searchTerm!.nativeElement.value = '';
+    this.shopParams = new ShopParams();
     this.getProducts();
   }
 }

@@ -25,6 +25,10 @@ export class ShopService {
       params = params.append('typeId', shopParams.typeId.toString());
     }
 
+    if (shopParams.search) {
+      params = params.append('search', shopParams.search);
+    }
+
     // no need to check becuase it is set to 'name' by default in the class
     params = params.append('sort', shopParams.sort);
 
