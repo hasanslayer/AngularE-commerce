@@ -8,8 +8,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./test-error.component.scss']
 })
 export class TestErrorComponent implements OnInit {
+  baseUrl = environment.apiUrl;
+  validationErrors:any;
 
-  baseUrl = environment.apiUrl
 
   constructor(private http:HttpClient) { }
 
@@ -55,7 +56,8 @@ export class TestErrorComponent implements OnInit {
         console.log(res)
       },
       error: error => {
-        console.log(error)
+        console.log(error);
+        this.validationErrors = error.errors
       }
     })
   }
