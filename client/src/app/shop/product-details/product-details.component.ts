@@ -10,21 +10,15 @@ import { ShopService } from '../shop.service';
   styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
-  product: IProduct = {
-    id: 0,
-    description: '',
-    imgUrl: '',
-    name: '',
-    price: 0,
-    productBrand: '',
-    productType: '',
-  };
+  product!: IProduct;
 
   constructor(
     private shopService: ShopService,
     private activeRoute: ActivatedRoute,
     private bcService: BreadcrumbService
-  ) {}
+  ) {
+    this.bcService.set('@productDetails',' ');
+  }
 
   ngOnInit(): void {
     this.loadProduct();
