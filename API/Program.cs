@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton<ConnectionMultiplexer>(c => {
+builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
     var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"),true);
 
     return ConnectionMultiplexer.Connect(configuration);
