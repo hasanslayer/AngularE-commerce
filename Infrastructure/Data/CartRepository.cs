@@ -4,24 +4,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace Infrastructure.Data
 {
     public class CartRepository : ICartRepository
     {
-        public Task<bool> DeleteCardAsync(string cartId)
+        private readonly IDatabase _database;
+        public CartRepository(IConnectionMultiplexer redis)
         {
-            throw new NotImplementedException();
+            _database = redis.GetDatabase();
         }
 
-        public Task<Cart> GetCartAsync(string cartId)
+        public async Task<bool> DeleteCardAsync(string cartId)
         {
-            throw new NotImplementedException();
+            return await _database.KeyDeleteAsync(cartId);
         }
 
-        public Task<Cart> UpdateCartAsync(Cart cart)
+        public async Task<Cart> GetCartAsync(string cartId)
         {
-            throw new NotImplementedException();
+           var data = await _database.StringGetAsync(cartId);
+
+           return data.IsNullOrEmpty ? null : JsonConvert.DeserializeObject<Cart>(data);
+        }
+
+        public async Task<Cart> UpdateCartAsync(Cart cart)
+        {
+            // create or update(replace with cart that we get from Redis)
+            //* hang in memory for 30 days
+            var created = await _database.StringSetAsync(cart.Id,JsonConvert.SerializeObject(cart),TimeSpan.FromDays(30));
+
+            if(!created){
+                return null;
+            }
+
+            return await GetCartAsync(cart.Id);
+
+
         }
     }
 }
