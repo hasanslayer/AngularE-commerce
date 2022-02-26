@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CartService } from 'src/app/cart/cart.service';
 import { IProduct } from 'src/app/shared/models/product';
 
 @Component({
@@ -7,17 +8,14 @@ import { IProduct } from 'src/app/shared/models/product';
   styleUrls: ['./product-item.component.scss'],
 })
 export class ProductItemComponent implements OnInit {
-  @Input() product: IProduct = {
-    id: 0,
-    description: '',
-    imgUrl: '',
-    name: '',
-    price: 0,
-    productBrand: '',
-    productType: '',
-  };
+  @Input() product!: IProduct;
 
-  constructor() {}
+  constructor(private cartService: CartService) {}
 
   ngOnInit(): void {}
+
+  addItemToCart(){
+    this.cartService.addItemToCart(this.product);
+
+  }
 }
