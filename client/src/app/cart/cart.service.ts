@@ -29,6 +29,7 @@ export class CartService {
     return this.http.post<ICart>(this.baseUrl + 'cart', cart).subscribe(
       (response: ICart) => {
         this.cartSource.next(response);
+        console.log(response);
       },
       (error) => {
         console.log(error);
