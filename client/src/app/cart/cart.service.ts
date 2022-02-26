@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ICart } from '../shared/models/cart';
+import { Cart, ICart, ICartItem } from '../shared/models/cart';
+import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,44 @@ export class CartService {
 
   getCurrentCartValue() {
     return this.cartSource.value;
+  }
+
+  addItemToCart(item: IProduct, qty = 1) {
+    const itemToAdd: ICartItem = this.mapProductItemToCartItem(item, qty);
+    const cart = this.getCurrentCartValue() ?? this.createCart();
+    cart.items = this.addOrUpdateItem(cart.items, itemToAdd, qty);
+    this.setCart(cart);
+  }
+  private addOrUpdateItem(
+    items: ICartItem[],
+    itemToAdd: ICartItem,
+    qty: number
+  ): ICartItem[] {
+    const index = items.findIndex((i) => i.id === itemToAdd.id);
+    if (index === -1) {
+      itemToAdd.qty = qty;
+      items.push(itemToAdd);
+    }else{
+      items[index].qty += qty;
+    }
+
+    return items;
+  }
+  private createCart(): ICart {
+    const cart = new Cart();
+    localStorage.setItem('cart_id', cart.id);
+    return cart;
+  }
+
+  private mapProductItemToCartItem(item: IProduct, qty: number): ICartItem {
+    return {
+      id: item.id,
+      productName: item.name,
+      brand: item.productBrand,
+      type: item.productType,
+      qty: qty,
+      imgUrl: item.imgUrl,
+      price: item.price,
+    };
   }
 }
