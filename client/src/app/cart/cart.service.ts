@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Cart, ICart, ICartItem } from '../shared/models/cart';
+import { Cart, ICart, ICartItem, ICartTotal } from '../shared/models/cart';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -15,13 +15,16 @@ export class CartService {
   private cartSource = new BehaviorSubject<ICart>(null!); // need initial value ,so we set null initially
   cart$ = this.cartSource.asObservable();
 
+  private cartTotalSource = new BehaviorSubject<ICartTotal>(null!);
+  cartTotal$ = this.cartTotalSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getCart(id: string) {
     return this.http.get<ICart>(this.baseUrl + 'cart?id=' + id).pipe(
       map((cart: ICart) => {
         this.cartSource.next(cart);
-        console.log(this.getCurrentCartValue());
+        this.calculateTotals();
       })
     );
   }
@@ -30,7 +33,7 @@ export class CartService {
     return this.http.post<ICart>(this.baseUrl + 'cart', cart).subscribe(
       (response: ICart) => {
         this.cartSource.next(response);
-        console.log(response);
+        this.calculateTotals();
       },
       (error) => {
         console.log(error);
@@ -48,6 +51,19 @@ export class CartService {
     cart.items = this.addOrUpdateItem(cart.items, itemToAdd, qty);
     this.setCart(cart);
   }
+
+  private calculateTotals() {
+    const cart = this.getCurrentCartValue();
+    const shipping = 0;
+    const subtotal = cart.items.reduce((a, b) => b.price * b.qty + a, 0);
+    const total = subtotal + shipping;
+    this.cartTotalSource.next({
+      shipping,
+      subtotal,
+      total,
+    });
+  }
+
   private addOrUpdateItem(
     items: ICartItem[],
     itemToAdd: ICartItem,
@@ -57,7 +73,7 @@ export class CartService {
     if (index === -1) {
       itemToAdd.qty = qty;
       items.push(itemToAdd);
-    }else{
+    } else {
       items[index].qty += qty;
     }
 

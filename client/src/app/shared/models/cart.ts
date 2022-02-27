@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export interface ICart {
   id: string;
@@ -6,7 +6,7 @@ export interface ICart {
 }
 
 export interface ICartItem {
-  id: number ;
+  id: number;
   productName: string;
   price: number;
   qty: number;
@@ -15,9 +15,13 @@ export interface ICartItem {
   type: string;
 }
 
-export class Cart implements ICart{
+export class Cart implements ICart {
   id = uuidv4();
   items: ICartItem[] = [];
 }
 
-
+export interface ICartTotal {
+  shipping: number;
+  subtotal: number;
+  total: number;
+}
