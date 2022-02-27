@@ -21,6 +21,7 @@ export class CartService {
     return this.http.get<ICart>(this.baseUrl + 'cart?id=' + id).pipe(
       map((cart: ICart) => {
         this.cartSource.next(cart);
+        console.log(this.getCurrentCartValue());
       })
     );
   }
