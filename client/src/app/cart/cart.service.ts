@@ -52,6 +52,46 @@ export class CartService {
     this.setCart(cart);
   }
 
+  incrementItemQty(item: ICartItem) {
+    const cart = this.getCurrentCartValue();
+    const foundItemIndex = cart.items.findIndex((x) => x.id === item.id);
+    cart.items[foundItemIndex].qty++;
+    this.setCart(cart);
+  }
+  decrementItemQty(item: ICartItem) {
+    const cart = this.getCurrentCartValue();
+    const foundItemIndex = cart.items.findIndex((x) => x.id === item.id);
+    if (cart.items[foundItemIndex].qty > 1) {
+      cart.items[foundItemIndex].qty--;
+      this.setCart(cart);
+    } else {
+      this.removeItemFromCart(item);
+    }
+  }
+  removeItemFromCart(item: ICartItem) {
+    const cart = this.getCurrentCartValue();
+    if (cart.items.some((x) => x.id === item.id)) {
+      cart.items = cart.items.filter((i) => i.id !== item.id); // filter all items that not match the condition
+      if (cart.items.length > 0) {
+        this.setCart(cart);
+      } else {
+        this.deleteCart(cart);
+      }
+    }
+  }
+  deleteCart(cart: ICart) {
+    return this.http.delete(this.baseUrl + 'cart?id=' + cart.id).subscribe({
+      next: () => {
+        this.cartSource.next(null!);
+        this.cartTotalSource.next(null!);
+        localStorage.removeItem('cart_id');
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
   private calculateTotals() {
     const cart = this.getCurrentCartValue();
     const shipping = 0;
