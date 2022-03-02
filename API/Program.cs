@@ -2,7 +2,9 @@ using API.Extensions;
 using API.Helpers;
 using API.Infrastructure.Data;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -33,6 +35,7 @@ builder.Services.AddCors(option =>
     });
 });
 
+builder.AddIdentityService();
 builder.AddApplicationServices();
 builder.AddSwaggerDocumentation();
 
@@ -46,6 +49,9 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
         await context.Database.MigrateAsync();
         await ApplicationDbContextSeed.SeedAsync(context, loggerFactory);
+
+        var userManager = services.GetRequiredService<UserManager<ApplicationDbUser>>();
+        await ApplicationDbContextSeed.SeedUsersAsync(userManager);
     }
     catch (Exception ex)
     {

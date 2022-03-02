@@ -1,5 +1,7 @@
 using API.Core.Entities;
 using API.Infrastructure.Data;
+using Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -24,7 +26,7 @@ namespace Infrastructure.Data
                     var types = JsonConvert.DeserializeObject<List<ProductType>>(typesData);
 
                     await context.ProductTypes.AddRangeAsync(types);
-                   
+
                 }
                 if (!context.Products.Any())
                 {
@@ -45,5 +47,27 @@ namespace Infrastructure.Data
             }
 
         }
+
+        public static async Task SeedUsersAsync(UserManager<ApplicationDbUser> userManager)
+        {
+            if(!userManager.Users.Any()){
+                var user = new ApplicationDbUser{
+                    DisplayName = "Hasan",
+                    Email = "Hasan-dr2010@hotmail.com",
+                    UserName = "Hasan-dr2010@hotmail.com",
+                    Address = new Address{
+                        FirstName = "Hasan",
+                        LastName = "Darwish",
+                        Street = "Elgeesh St.",
+                        State = "Dakhlia",
+                        City = "Mansoura",
+                        ZipCode = "11005"
+                    }
+                };
+
+                await userManager.CreateAsync(user,"*Darwish2019*");
+            }
+        }
+
     }
 }
