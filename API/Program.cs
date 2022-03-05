@@ -35,7 +35,7 @@ builder.Services.AddCors(option =>
     });
 });
 
-builder.AddIdentityService();
+builder.AddIdentityService(builder.Configuration);
 builder.AddApplicationServices();
 builder.AddSwaggerDocumentation();
 
@@ -75,6 +75,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
