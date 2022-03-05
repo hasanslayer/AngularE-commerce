@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
 using Core.Entities.Identity;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +12,10 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationDbUser> _userManager;
         private readonly SignInManager<ApplicationDbUser> _signInManager;
-        public AccountController(UserManager<ApplicationDbUser> userManager, SignInManager<ApplicationDbUser> signInManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<ApplicationDbUser> userManager, SignInManager<ApplicationDbUser> signInManager, ITokenService tokenService)
         {
+            _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -42,7 +41,7 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 DisplayName = user.DisplayName,
-                Token = "this will be token"
+                Token = _tokenService.CreateToken(user)
             };
         }
 
@@ -67,7 +66,7 @@ namespace API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = "will be a token"
+                Token = _tokenService.CreateToken(user)
             };
         }
 
