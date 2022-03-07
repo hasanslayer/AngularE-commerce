@@ -6,6 +6,7 @@ using Core.Entities.Identity;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
-    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"),true);
+builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+{
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
 
     return ConnectionMultiplexer.Connect(configuration);
 });
@@ -37,6 +39,46 @@ builder.Services.AddCors(option =>
 
 builder.AddIdentityService(builder.Configuration);
 builder.AddApplicationServices();
+
+#region Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme.",
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+    });
+
+    // Set the comments path for the Swagger JSON and UI.
+    //             var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    // var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+    // c.IncludeXmlComments(xmlPath);
+
+
+});
+#endregion
+
 builder.AddSwaggerDocumentation();
 
 var app = builder.Build();
@@ -79,6 +121,12 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSwaggerUI(c =>
+           {
+               c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+               c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+           });
 
 app.UseSwaggerDocumentation();
 
