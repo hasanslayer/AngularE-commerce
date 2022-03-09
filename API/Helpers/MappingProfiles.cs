@@ -1,6 +1,7 @@
 using API.Core.Entities;
 using API.Dtos;
 using AutoMapper;
+using Core.Entities;
 using Core.Entities.Identity;
 
 namespace API.Helpers
@@ -22,7 +23,10 @@ namespace API.Helpers
             CreateMap<ProductType, ProductTypeToReturnDto>()
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => Lang == "ar" ? src.NameAr : src.NameEn));
 
-                CreateMap<Address,AddressDto>().ReverseMap();
+            CreateMap<Address, AddressDto>().ReverseMap();
+
+            CreateMap<CartDto, Cart>();
+            CreateMap<CartItemDto, CartItem>();
 
         }
     }
