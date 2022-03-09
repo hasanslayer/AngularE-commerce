@@ -40,45 +40,6 @@ builder.Services.AddCors(option =>
 builder.AddIdentityService(builder.Configuration);
 builder.AddApplicationServices();
 
-#region Swagger
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme.",
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-                    {
-                          new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new string[] {}
-
-                    }
-    });
-
-    // Set the comments path for the Swagger JSON and UI.
-    //             var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    // var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-    // c.IncludeXmlComments(xmlPath);
-
-
-});
-#endregion
-
 builder.AddSwaggerDocumentation();
 
 var app = builder.Build();
