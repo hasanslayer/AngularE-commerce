@@ -1,1 +1,12 @@
-<p>text-input works!</p>
+<div class="form-label-group">
+  <input
+    [ngClass]="(controlDir && controlDir.control && controlDir.control.touched) ? !controlDir.control.valid ? 'is-invalid' : 'is-valid' : null! "
+    (input)="onChange($event.target.value)" (blur)="onTouched()" [type]="type" id="{{label}}" #input
+    class="form-control" placeholder="{{label}}">
+  <label for="{{label}}">{{label}}</label>
+  <div class="invalid-feedback"
+    *ngIf="(controlDir && controlDir.control && !controlDir.control.valid && controlDir.control.touched)">
+    <span *ngIf="controlDir.control.errors?.['required']">{{label}} is required</span>
+    <span *ngIf="controlDir.control.errors?.['pattern']">Invalid email address</span>
+  </div>
+</div>
