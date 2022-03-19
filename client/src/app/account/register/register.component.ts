@@ -10,6 +10,7 @@ import { AccountService } from '../account.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  errors: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +38,11 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.accountService.register(this.registerForm.value).subscribe({
-      next:(response) => this.router.navigateByUrl('/shop'),
-      error:(error) => console.log(error)
-    })
+      next: (response) => this.router.navigateByUrl('/shop'),
+      error: (error) => {
+        console.log(error);
+        this.errors = error.errors;
+      }
+    });
   }
 }
