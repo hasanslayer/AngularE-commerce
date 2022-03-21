@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'not-found', component: NotFoundComponent,data:{breadcrumb:'Not Found'} },
   { path: 'shop', loadChildren:() => import('./shop/shop.module').then(mod => mod.ShopModule),data:{breadcrumb:'Shop'} }, // deal with lazy loading
   { path: 'cart', loadChildren:() => import('./cart/cart.module').then(mod => mod.CartModule),data:{breadcrumb:'Cart'} }, // deal with lazy loading
-  { path: 'checkout', loadChildren:() => import('./cart/cart.module').then(mod => mod.CartModule),data:{breadcrumb:'Checkout'} }, // deal with lazy loading
+  { path: 'checkout', loadChildren:() => import('./checkout/checkout.module').then(mod => mod.CheckoutModule),data:{breadcrumb:'Checkout'} }, // deal with lazy loading
   { path: 'account', loadChildren:() => import('./account/account.module').then(mod => mod.AccountModule),data:{breadcrumb:{skip:true}} }, // deal with lazy loading
   { path: '**', redirectTo:'not-found',pathMatch:'full' },
 ];
