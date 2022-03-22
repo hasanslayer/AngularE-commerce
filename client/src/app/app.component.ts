@@ -9,21 +9,23 @@ import { CartService } from './cart/cart.service';
 })
 export class AppComponent implements OnInit {
   title = 'Skinet';
-  constructor(private cartService: CartService,private accountService:AccountService) {}
+  constructor(
+    private cartService: CartService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.loadCard();
     this.loadCurrentUser();
   }
 
-  loadCurrentUser(){
+  loadCurrentUser() {
     const token = localStorage.getItem('token');
-    if(token){
-      this.accountService.loadCurrentUser(token).subscribe({
-        next:() => console.log('loaded user'),
-        error:(error) => console.log(error)
-      })
-    }
+
+    this.accountService.loadCurrentUser(token!).subscribe({
+      next: () => console.log('loaded user'),
+      error: (error) => console.log(error)
+    });
   }
 
   loadCard() {

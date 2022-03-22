@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../shared/models/user';
 import { map } from 'rxjs/operators';
@@ -11,16 +11,22 @@ import { Router } from '@angular/router';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<IUser>(null!);
+  // BehaviorSubject make a problem because it should initiate the subject
+  // so when we reload the page and we are logged in so the user subject will be null and will redirect to login again!
+
+  // 1 number of the values that we need subject to hold
+  private currentUserSource = new ReplaySubject<IUser>(1); // hold 1 user
+
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getCurrentUserValue() {
-    return this.currentUserSource.value;
-  }
+  loadCurrentUser(token: string): Observable<any> {
+    if (token === null) {
+      this.currentUserSource.next(null!);
+      return of(null);
+    }
 
-  loadCurrentUser(token: string) {
     let header = new HttpHeaders();
     header = header.set('Authorization', `Bearer ${token}`);
 
