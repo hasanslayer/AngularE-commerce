@@ -1,6 +1,7 @@
 using API.Core.Entities;
 using API.Infrastructure.Data;
 using Core.Entities.Identity;
+using Core.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -34,6 +35,14 @@ namespace Infrastructure.Data
                     var products = JsonConvert.DeserializeObject<List<Product>>(productsData);
 
                     await context.Products.AddRangeAsync(products);
+
+                }
+                if (!context.DeliveryMethods.Any())
+                {
+                    var deliveryMethodsData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+                    var deliveryMethods = JsonConvert.DeserializeObject<List<DeliveryMethod>>(deliveryMethodsData);
+
+                    await context.DeliveryMethods.AddRangeAsync(deliveryMethods);
 
                 }
 
