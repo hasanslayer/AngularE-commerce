@@ -30,17 +30,17 @@ namespace API.Helpers
             CreateMap<CartItemDto, CartItem>();
 
             CreateMap<AddressDto, OrderAddress>();
-            
+
             CreateMap<Order, OrderToReturnDto>()
-                .ForMember(d => d.DeliveryMethod , opt => opt.MapFrom(s => s.DeliveryMethod.ShortName))
-                .ForMember(d => d.ShippingPrice , opt => opt.MapFrom(s => s.DeliveryMethod.Price));
+                .ForMember(d => d.DeliveryMethod, opt => opt.MapFrom(s => s.DeliveryMethod.ShortName))
+                .ForMember(d => d.ShippingPrice, opt => opt.MapFrom(s => s.DeliveryMethod.Price));
 
             CreateMap<OrderItem, OrderItemDto>()
-                .ForMember(d => d.ProductItemId , opt => opt.MapFrom(s => s.ItemOrdered.ProductItemId))
-                .ForMember(d => d.ProductNameAr , opt => opt.MapFrom(s => s.ItemOrdered.ProductNameAr))
-                .ForMember(d => d.ProductNameEn , opt => opt.MapFrom(s => s.ItemOrdered.ProductNameEn))
-                .ForMember(d => d.ImgUrl , opt => opt.MapFrom(s => s.ItemOrdered.ImgUrl));
-
+                .ForMember(d => d.ProductItemId, opt => opt.MapFrom(s => s.ItemOrdered.ProductItemId))
+                .ForMember(d => d.ProductNameAr, opt => opt.MapFrom(s => s.ItemOrdered.ProductNameAr))
+                .ForMember(d => d.ProductNameEn, opt => opt.MapFrom(s => s.ItemOrdered.ProductNameEn))
+                .ForMember(d => d.ImgUrl, opt => opt.MapFrom(s => s.ItemOrdered.ImgUrl))
+                .ForMember(d => d.ImgUrl, opt => opt.MapFrom<OrderItemUrlResolver>());
         }
     }
 }
