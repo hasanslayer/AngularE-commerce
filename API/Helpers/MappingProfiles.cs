@@ -30,6 +30,8 @@ namespace API.Helpers
             CreateMap<CartItemDto, CartItem>();
 
             CreateMap<AddressDto, OrderAddress>();
+            CreateMap<Order, OrderToReturnDto>();
+            CreateMap<OrderItem, OrderItemDto>();
 
         }
     }
