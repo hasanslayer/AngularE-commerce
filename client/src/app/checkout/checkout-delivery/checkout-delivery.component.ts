@@ -10,7 +10,7 @@ import { CheckoutService } from '../checkout.service';
 })
 export class CheckoutDeliveryComponent implements OnInit {
   @Input() checkoutForm!: FormGroup;
-  deliveryMethods: IDeliveryMethod[] = [];
+  deliveryMethods!: IDeliveryMethod[];
 
   constructor(private checkoutService: CheckoutService) {}
 
