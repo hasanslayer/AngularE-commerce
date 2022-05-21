@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartService } from 'src/app/cart/cart.service';
 import { ICart, ICartItem } from '../../models/cart';
@@ -13,6 +13,7 @@ export class CartSummaryComponent implements OnInit {
   @Output() decrement: EventEmitter<ICartItem> = new EventEmitter<ICartItem>();
   @Output() increment: EventEmitter<ICartItem> = new EventEmitter<ICartItem>();
   @Output() remove: EventEmitter<ICartItem> = new EventEmitter<ICartItem>();
+  @Input() isCart = true;
 
   constructor(private cartService: CartService) {}
 
