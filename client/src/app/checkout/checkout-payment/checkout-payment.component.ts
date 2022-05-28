@@ -1,15 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { CartService } from 'src/app/cart/cart.service';
+import { ICart } from 'src/app/shared/models/cart';
+import { IOrder } from 'src/app/shared/models/order';
+import { CheckoutService } from '../checkout.service';
 
 @Component({
   selector: 'app-checkout-payment',
   templateUrl: './checkout-payment.component.html',
-  styleUrls: ['./checkout-payment.component.scss']
+  styleUrls: ['./checkout-payment.component.scss'],
 })
 export class CheckoutPaymentComponent implements OnInit {
+  @Input() checkoutForm!: FormGroup;
 
-  constructor() { }
+  constructor(
+    private cartService: CartService,
+    private checkoutService: CheckoutService,
+    private toastr: ToastrService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  submitOrder() {
+    const cart = this.cartService.getCurrentCartValue();
+    const orderToCreate = this.getOrderToCreate(cart);
+    this.checkoutService.createOrder(orderToCreate).subscribe({
+      next: (order: IOrder) => {
+        this.toastr.success('Order created successfully');
+        this.cartService.deleteLocalCart(cart.id);
+        console.log(order)
+      },
+      error : (error) => {
+        this.toastr.error(error.message);
+        console.log(error);
+      }
+    });
   }
-
+  private getOrderToCreate(cart: ICart) {
+    return {
+      cartId: cart.id,
+      deliveryMethodId: +this.checkoutForm
+        .get('deliveryForm')
+        ?.get('deliveryMethod')?.value,
+      shipToAddress: this.checkoutForm.get('addressForm')?.value,
+    };
+  }
 }

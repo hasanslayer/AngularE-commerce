@@ -86,6 +86,13 @@ export class CartService {
       }
     }
   }
+
+  deleteLocalCart(id:string){
+    this.cartSource.next(null!);
+    this.cartTotalSource.next(null!);
+    localStorage.removeItem('cart_id');
+  }
+
   deleteCart(cart: ICart) {
     return this.http.delete(this.baseUrl + 'cart?id=' + cart.id).subscribe({
       next: () => {
@@ -126,6 +133,7 @@ export class CartService {
 
     return items;
   }
+
   private createCart(): ICart {
     const cart = new Cart();
     localStorage.setItem('cart_id', cart.id);
