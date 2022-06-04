@@ -16,7 +16,7 @@ export class OrdersService {
     return this.http.get<IOrder[]>(this.baseUrl + 'orders');
   }
 
-  getOrderDetailed(id: number) {
-    return this.http.get(this.baseUrl + 'orders/' + id);
+  getOrderDetailed(id: number): Observable<IOrder> {
+    return this.http.get<IOrder>(this.baseUrl + 'orders/' + id);
   }
 }
