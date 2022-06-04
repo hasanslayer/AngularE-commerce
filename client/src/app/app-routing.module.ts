@@ -37,10 +37,17 @@ const routes: Routes = [
   }, // deal with lazy loading
   {
     path: 'checkout',
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
     data: { breadcrumb: 'Checkout' },
+  }, // deal with lazy loading
+  {
+    path: 'orders',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./order/orders.module').then((mod) => mod.OrdersModule),
+    data: { breadcrumb: 'Orders' },
   }, // deal with lazy loading
   {
     path: 'account',
