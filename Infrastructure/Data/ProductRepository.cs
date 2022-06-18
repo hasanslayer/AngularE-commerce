@@ -2,6 +2,7 @@ using API.Core.Entities;
 using API.Infrastructure.Data;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Core.Entities;
 
 namespace Infrastructure.Data
 {

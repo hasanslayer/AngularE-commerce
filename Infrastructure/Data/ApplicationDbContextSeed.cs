@@ -1,5 +1,6 @@
 using API.Core.Entities;
 using API.Infrastructure.Data;
+using Core.Entities;
 using Core.Entities.Identity;
 using Core.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;

@@ -1,4 +1,5 @@
 using API.Core.Entities;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +15,7 @@ namespace Infrastructure.Data.Config
             builder.Property(o => o.Description).IsRequired();
             builder.Property(o => o.Price).HasPrecision(18, 2);
             builder.Property(o => o.ImgUrl).IsRequired();
-            
+
             builder.HasOne(o => o.ProductBrand).WithMany()
                 .HasForeignKey(o => o.ProductBrandId);
 

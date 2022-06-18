@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using API.Core.Entities;
+using Core.Entities;
 
 namespace Core.Specifications
 {
