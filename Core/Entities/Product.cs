@@ -1,6 +1,6 @@
-using Core.Entities;
+using API.Core.Entities;
 
-namespace API.Core.Entities
+namespace Core.Entities
 {
     public class Product : BaseEntity
     {
@@ -12,7 +12,7 @@ namespace API.Core.Entities
 
         public ProductType ProductType { get; set; }
         public int? ProductTypeId { get; set; }
-        
+
         public ProductBrand ProductBrand { get; set; }
         public int? ProductBrandId { get; set; }
     }

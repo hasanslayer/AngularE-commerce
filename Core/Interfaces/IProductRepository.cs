@@ -1,4 +1,5 @@
 using API.Core.Entities;
+using Core.Entities;
 
 namespace Core.Interfaces
 {
