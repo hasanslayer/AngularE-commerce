@@ -3,6 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 export interface ICart {
   id: string;
   items: ICartItem[];
+  clientSecret?: string;
+  paymentIntent?: string;
+  deliveryMethodId?: number;
 }
 
 export interface ICartItem {
