@@ -22,10 +22,25 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
+  createPaymentIntent() {
+    return this.http
+      .post<ICart>(
+        this.baseUrl + 'payments/' + this.getCurrentCartValue().id,
+        {}
+      )
+      .pipe(
+        map((cart: ICart) => {
+          this.cartSource.next(cart);
+          console.log(this.getCurrentCartValue());
+        })
+      );
+  }
+
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.shipping = deliveryMethod.price;
     const cart = this.getCurrentCartValue();
     cart.deliveryMethodId = deliveryMethod.id;
+    cart.shippingPrice = deliveryMethod.price;
     this.calculateTotals();
     this.setCart(cart);
   }
@@ -34,6 +49,7 @@ export class CartService {
     return this.http.get<ICart>(this.baseUrl + 'cart?id=' + id).pipe(
       map((cart: ICart) => {
         this.cartSource.next(cart);
+        this.shipping = cart.shippingPrice!
         this.calculateTotals();
       })
     );
@@ -90,7 +106,7 @@ export class CartService {
     }
   }
 
-  deleteLocalCart(id:string){
+  deleteLocalCart(id: string) {
     this.cartSource.next(null!);
     this.cartTotalSource.next(null!);
     localStorage.removeItem('cart_id');

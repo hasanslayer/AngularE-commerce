@@ -6,6 +6,7 @@ export interface ICart {
   clientSecret?: string;
   paymentIntent?: string;
   deliveryMethodId?: number;
+  shippingPrice?:number;
 }
 
 export interface ICartItem {
@@ -21,6 +22,7 @@ export interface ICartItem {
 export class Cart implements ICart {
   id = uuidv4();
   items: ICartItem[] = [];
+
 }
 
 export interface ICartTotal {
