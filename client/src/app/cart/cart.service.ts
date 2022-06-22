@@ -31,7 +31,6 @@ export class CartService {
       .pipe(
         map((cart: ICart) => {
           this.cartSource.next(cart);
-          console.log(this.getCurrentCartValue());
         })
       );
   }
