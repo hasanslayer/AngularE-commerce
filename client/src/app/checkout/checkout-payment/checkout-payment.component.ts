@@ -22,7 +22,7 @@ declare var Stripe: any;
   templateUrl: './checkout-payment.component.html',
   styleUrls: ['./checkout-payment.component.scss'],
 })
-export class CheckoutPaymentComponent implements AfterViewInit,OnDestroy {
+export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   @Input() checkoutForm!: FormGroup;
   @ViewChild('cardNumber', { static: true }) cardNumberElement!: ElementRef;
   @ViewChild('cardExpiry', { static: true }) cardExpiryElement!: ElementRef;
@@ -32,6 +32,7 @@ export class CheckoutPaymentComponent implements AfterViewInit,OnDestroy {
   cardExpiry: any; // pure javascript
   cardCvc: any; // pure javascript
   cardErrors: any; // pure javascript
+  cardHandler = this.onChange.bind(this);
 
   constructor(
     private cartService: CartService,
@@ -55,12 +56,24 @@ export class CheckoutPaymentComponent implements AfterViewInit,OnDestroy {
 
     this.cardNumber = elements.create('cardNumber');
     this.cardNumber.mount(this.cardNumberElement.nativeElement);
+    this.cardNumber.addEventListener('change',this.cardHandler)
 
     this.cardExpiry = elements.create('cardExpiry');
     this.cardExpiry.mount(this.cardExpiryElement.nativeElement);
+    this.cardExpiry.addEventListener('change',this.cardHandler)
 
     this.cardCvc = elements.create('cardCvc');
     this.cardCvc.mount(this.cardCvcElement.nativeElement);
+    this.cardCvc.addEventListener('change',this.cardHandler)
+  }
+
+  // property called 'error' in the passed object that we interest in
+  onChange({ error }: { error: any }) {
+    if (error) {
+      this.cardErrors = error.message; // a stripe error
+    } else {
+      this.cardErrors = null;
+    }
   }
 
   submitOrder() {
