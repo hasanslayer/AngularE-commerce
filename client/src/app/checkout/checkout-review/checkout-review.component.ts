@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkStepper } from '@angular/cdk/stepper';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from 'src/app/cart/cart.service';
 
@@ -8,6 +9,9 @@ import { CartService } from 'src/app/cart/cart.service';
   styleUrls: ['./checkout-review.component.scss'],
 })
 export class CheckoutReviewComponent implements OnInit {
+
+  @Input() appStepper!: CdkStepper
+
   constructor(
     private cartService: CartService,
     private toastr: ToastrService
@@ -19,6 +23,7 @@ export class CheckoutReviewComponent implements OnInit {
     return this.cartService.createPaymentIntent().subscribe({
       next: (response: any) => {
         this.toastr.success('payment intent created');
+        this.appStepper.next();
       },
       error: (error) => {
         console.log(error);
