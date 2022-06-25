@@ -56,15 +56,15 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
 
     this.cardNumber = elements.create('cardNumber');
     this.cardNumber.mount(this.cardNumberElement.nativeElement);
-    this.cardNumber.addEventListener('change',this.cardHandler)
+    this.cardNumber.addEventListener('change', this.cardHandler);
 
     this.cardExpiry = elements.create('cardExpiry');
     this.cardExpiry.mount(this.cardExpiryElement.nativeElement);
-    this.cardExpiry.addEventListener('change',this.cardHandler)
+    this.cardExpiry.addEventListener('change', this.cardHandler);
 
     this.cardCvc = elements.create('cardCvc');
     this.cardCvc.mount(this.cardCvcElement.nativeElement);
-    this.cardCvc.addEventListener('change',this.cardHandler)
+    this.cardCvc.addEventListener('change', this.cardHandler);
   }
 
   // property called 'error' in the passed object that we interest in
@@ -82,9 +82,27 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     this.checkoutService.createOrder(orderToCreate).subscribe({
       next: (order: IOrder) => {
         this.toastr.success('Order created successfully');
-        this.cartService.deleteLocalCart(cart.id);
-        const navigationExtras: NavigationExtras = { state: order };
-        this.router.navigate(['checkout/success'], navigationExtras);
+        this.stripe
+          .confirmCardPayment(cart.clientSecret, {
+            payment_method: {
+              card: this.cardNumber,
+              billing_details: {
+                name: this.checkoutForm.get('paymentForm')?.get('nameOnCard')
+                  ?.value,
+              },
+            },
+          })
+          .then((result: any) => {
+            console.log(result);
+            if (result.paymentIntent) {
+              // success
+              this.cartService.deleteLocalCart(cart.id);
+              const navigationExtras: NavigationExtras = { state: order };
+              this.router.navigate(['checkout/success'], navigationExtras);
+            }else{
+              this.toastr.error('Payment error')
+            }
+          });
       },
       error: (error) => {
         this.toastr.error(error.message);
