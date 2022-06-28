@@ -34,7 +34,11 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   cardCvc: any; // pure javascript
   cardErrors: any; // pure javascript
   cardHandler = this.onChange.bind(this);
+
   loading = false;
+  cardNumberValid = false;
+  cardExpiryValid = false;
+  cardCvcValid = false;
 
   constructor(
     private cartService: CartService,
@@ -70,11 +74,26 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   // property called 'error' in the passed object that we interest in
-  onChange({ error }: { error: any }) {
-    if (error) {
-      this.cardErrors = error.message; // a stripe error
+  onChange(event: any) {
+    console.log(event);
+    if (event.error) {
+      this.cardErrors = event.error.message; // a stripe error
     } else {
       this.cardErrors = null;
+    }
+
+    switch (event.elementType) {
+      case 'cardNumber':
+        this.cardNumberValid = event.complete;
+        break;
+      case 'cardExpiry':
+        this.cardExpiryValid = event.complete;
+        break;
+      case 'cardCvc':
+        this.cardCvcValid = event.complete;
+        break;
+
+
     }
   }
 
