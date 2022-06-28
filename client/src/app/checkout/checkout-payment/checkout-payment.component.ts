@@ -10,6 +10,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { lastValueFrom } from 'rxjs';
 import { CartService } from 'src/app/cart/cart.service';
 import { ICart } from 'src/app/shared/models/cart';
 import { IOrder } from 'src/app/shared/models/order';
@@ -33,6 +34,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   cardCvc: any; // pure javascript
   cardErrors: any; // pure javascript
   cardHandler = this.onChange.bind(this);
+  loading = false;
 
   constructor(
     private cartService: CartService,
@@ -76,39 +78,46 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  submitOrder() {
+  async submitOrder() {
+    this.loading = true;
     const cart = this.cartService.getCurrentCartValue();
-    const orderToCreate = this.getOrderToCreate(cart);
-    this.checkoutService.createOrder(orderToCreate).subscribe({
-      next: (order: IOrder) => {
-        this.toastr.success('Order created successfully');
-        this.stripe
-          .confirmCardPayment(cart.clientSecret, {
-            payment_method: {
-              card: this.cardNumber,
-              billing_details: {
-                name: this.checkoutForm.get('paymentForm')?.get('nameOnCard')
-                  ?.value,
-              },
-            },
-          })
-          .then((result: any) => {
-            console.log(result);
-            if (result.paymentIntent) {
-              // success
-              this.cartService.deleteLocalCart(cart.id);
-              const navigationExtras: NavigationExtras = { state: order };
-              this.router.navigate(['checkout/success'], navigationExtras);
-            }else{
-              this.toastr.error(result.error.message)
-            }
-          });
-      },
-      error: (error) => {
-        this.toastr.error(error.message);
-        console.log(error);
+
+    try {
+      const createdOrder = await this.createOrder(cart);
+      const paymentResult = await this.confirmPaymentWithStripe(cart);
+
+      if (paymentResult.paymentIntent) {
+        // success
+        this.cartService.deleteLocalCart(cart.id);
+        const navigationExtras: NavigationExtras = { state: createdOrder };
+        this.router.navigate(['checkout/success'], navigationExtras);
+      } else {
+        this.toastr.error(paymentResult.error.message);
+      }
+      this.loading = false;
+    } catch (error) {
+      console.log(error);
+      this.loading = false;
+    }
+  }
+
+  private async confirmPaymentWithStripe(cart: ICart) {
+    // async because return a promise;
+    return this.stripe.confirmCardPayment(cart.clientSecret, {
+      payment_method: {
+        card: this.cardNumber,
+        billing_details: {
+          name: this.checkoutForm.get('paymentForm')?.get('nameOnCard')?.value,
+        },
       },
     });
+  }
+  private async createOrder(cart: ICart) {
+    const orderToCreate = this.getOrderToCreate(cart); // happened locally no need for api call
+    const order$ = this.checkoutService.createOrder(orderToCreate); // return an observable
+    const lastValueOfOrder = await lastValueFrom(order$); // wait to complete before move to next step;
+
+    return lastValueOfOrder;
   }
   private getOrderToCreate(cart: ICart) {
     return {
