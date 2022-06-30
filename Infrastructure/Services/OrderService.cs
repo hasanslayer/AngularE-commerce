@@ -45,7 +45,7 @@ namespace Infrastructure.Services
 
             // check to see if order exists
 
-            var spec = new OrderByPaymentIntentIdWithItemsSpecification(cart.PaymentIntentId);
+            var spec = new OrderByPaymentIntentIdSpecification(cart.PaymentIntentId);
             var existingOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
 
             if(existingOrder != null){
