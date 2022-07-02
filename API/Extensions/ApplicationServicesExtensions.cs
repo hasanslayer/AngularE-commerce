@@ -10,6 +10,8 @@ namespace API.Extensions
     {
         public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>(); // should be shared to all requests
+
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
