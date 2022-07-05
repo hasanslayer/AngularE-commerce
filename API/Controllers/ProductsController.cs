@@ -65,6 +65,7 @@ namespace API.Controllers
         }
 
         [Cached(600)]
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
