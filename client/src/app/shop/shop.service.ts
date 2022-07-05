@@ -78,7 +78,7 @@ export class ShopService {
     }
     return this.http.get<IBrand[]>(this.baseUrl + 'products/brands').pipe(
       map(response => {
-        this.brands = response;
+        this.brands = response; // cache it first to reuse it from cache instead of get it again from api
         return response;
       })
     );
