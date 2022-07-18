@@ -6,7 +6,7 @@ import { PagingHeaderComponent } from './components/paging-header/paging-header.
 import { PagerComponent } from './components/pager/pager.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { StepperComponent } from './components/stepper/stepper.component';
@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
     CarouselModule.forRoot(),
     BsDropdownModule,
     ReactiveFormsModule,
+    FormsModule, // need it for caching pageNumber to prevent reset page number
     CdkStepperModule,
     RouterModule
   ],
@@ -38,6 +39,7 @@ import { RouterModule } from '@angular/router';
     CarouselModule,
     OrderTotalsComponent,
     ReactiveFormsModule,
+    FormsModule, // need it for caching pageNumber to prevent reset page number
     BsDropdownModule,
     TextInputComponent,
     CdkStepperModule,
@@ -45,4 +47,4 @@ import { RouterModule } from '@angular/router';
     CartSummaryComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

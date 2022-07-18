@@ -22,7 +22,29 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<IPagination> {
+  getProducts(userCache: boolean): Observable<IPagination> {
+    if (userCache === false) {
+      this.products = [];
+    }
+
+    if (this.products.length > 0 && userCache === true) {
+      // we get an items so, we should paginate the response
+      const pagesReceived = Math.ceil(this.products.length / this.shopParams.pageSize);
+
+      if (this.shopParams.pageNumber <= pagesReceived) {
+        // then we have a product in memory cach
+
+        this.pagination.data = this.products
+        .slice((this.shopParams.pageNumber - 1) 
+        * this.shopParams.pageSize, this.shopParams.pageNumber 
+        * this.shopParams.pageSize);
+        
+        return of(this.pagination);
+
+      }
+      
+    }
+
     let params = new HttpParams();
     if (this.shopParams.brandId !== 0) {
       params = params.append('brandId', this.shopParams.brandId.toString());
