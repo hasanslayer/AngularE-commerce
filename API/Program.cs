@@ -4,8 +4,10 @@ using API.Infrastructure.Data;
 using API.Middleware;
 using Core.Entities.Identity;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
@@ -77,6 +79,15 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(),"Content")
+    ),RequestPath = "content"
+});
+
+
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
@@ -92,5 +103,6 @@ app.UseSwaggerUI(c =>
 app.UseSwaggerDocumentation();
 
 app.MapControllers();
+app.MapFallbackToAreaController("Index","Fallback");
 
 app.Run();
